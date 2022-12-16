@@ -87,20 +87,71 @@ let finances = [
 ['Feb-2017', 671099]
 ];
 
+// Calculate total number of months
 let numberOfMonths = finances.length
 console.log("Total Number of Months: " + numberOfMonths)
 
+// Calculate net total amount of Profit/Losses over the entire period
 const earningsArray = finances.map((month) => month[1]);
 
 const totalProfitLoss = finances
   .map((month) => month[1])
   .reduce((accVal, curVal) => accVal + curVal, 0);
 
+// Calculate the average of the **changes** in Profit/Losses over the entire period.
+// 2nd value of month 2 minus 2nd value of month 1. Add 1 to both for each calculation. Store all values
+let monthForCalculation = 0;
+let monthForCalculation2 = 1;
+
+// Store values in an array
+let valueDifferences = [];
+
+// Differences in each month in a for loop
+for (let index = 0; index < (finances.length -1); index++) {
+    const difference = finances[index];
+    let monthDifference = earningsArray[monthForCalculation2] - earningsArray[monthForCalculation];
+    monthForCalculation2++;
+    monthForCalculation++;
+    valueDifferences[index] = monthDifference;
+}
+
+console.log (valueDifferences);
+// Sum the total of the array
+const sumWithInitial = valueDifferences
+    .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+// Work out the average
+averageMonthlyChange = sumWithInitial / (numberOfMonths - 1);
+console.log (averageMonthlyChange);
+
+// Work out the greatest increase in profits
+let greatestIncrease = (Math.max(...valueDifferences));
+console.log (greatestIncrease);
+
+let monthNumber = valueDifferences.indexOf(greatestIncrease) + 2;
+console.log (monthNumber);
+
+console.log (finances[monthNumber][0]);
+
+// Work out the greatest increase in losses
+let greatestDecrease = (Math.min(...valueDifferences));
+console.log (greatestDecrease);
+
+let monthNumberDecrease = valueDifferences.indexOf(greatestDecrease) + 2;
+console.log (monthNumberDecrease);
+
+console.log (finances[monthNumberDecrease][0]);
+
+
+
+
+
+
+
+
 const avgProfitLoss = totalProfitLoss / numberOfMonths;
 console.log (avgProfitLoss);
 
-const avgOfProfitAndLoss =
-  earningsArray.reduce((accVal, curVal) => accVal + curVal, 0) / finances.length; // get the average of all total and losses
 
 const maxMonth = {
   monthName: '',
@@ -127,6 +178,6 @@ finances.forEach((month) => {
 });
 
 console.log('Total sale of profit months: ', totalProfitLoss);
-console.log('Total average : ', avgOfProfitAndLoss);
+console.log('Total average : ', avgProfitLoss);
 console.log('The month with max profit is : ', maxMonth);
 console.log('The month with min profit is : ', minMonth);

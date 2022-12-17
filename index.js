@@ -87,9 +87,13 @@ let finances = [
 ['Feb-2017', 671099]
 ];
 
+console.log ("Financial Analysis")
+console.log ("----------------------------")
+
 // Calculate total number of months
-let numberOfMonths = finances.length
-console.log("Total Number of Months: " + numberOfMonths)
+let numberOfMonths = finances.length;
+
+console.log("Total Months: " + numberOfMonths);
 
 // Calculate net total amount of Profit/Losses over the entire period
 const earningsArray = finances.map((month) => month[1]);
@@ -97,6 +101,8 @@ const earningsArray = finances.map((month) => month[1]);
 const totalProfitLoss = finances
   .map((month) => month[1])
   .reduce((accVal, curVal) => accVal + curVal, 0);
+
+console.log("Total: $" + totalProfitLoss);
 
 // Calculate the average of the **changes** in Profit/Losses over the entire period.
 // 2nd value of month 2 minus 2nd value of month 1. Add 1 to both for each calculation. Store all values
@@ -115,69 +121,30 @@ for (let index = 0; index < (finances.length -1); index++) {
     valueDifferences[index] = monthDifference;
 }
 
-console.log (valueDifferences);
 // Sum the total of the array
 const sumWithInitial = valueDifferences
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
 // Work out the average
 averageMonthlyChange = sumWithInitial / (numberOfMonths - 1);
-console.log (averageMonthlyChange);
+
+console.log("Average Change: $" + averageMonthlyChange.toFixed(2));
 
 // Work out the greatest increase in profits
 let greatestIncrease = (Math.max(...valueDifferences));
-console.log (greatestIncrease);
 
-let monthNumber = valueDifferences.indexOf(greatestIncrease) + 2;
-console.log (monthNumber);
+let monthNumber = valueDifferences.indexOf(greatestIncrease) + 1;
 
-console.log (finances[monthNumber][0]);
+console.log ("Greatest Increase in Profits: " + finances[monthNumber][0] + " ($" + greatestIncrease + ")");
 
-// Work out the greatest increase in losses
+// Work out the greatest decrease in profits
 let greatestDecrease = (Math.min(...valueDifferences));
-console.log (greatestDecrease);
 
-let monthNumberDecrease = valueDifferences.indexOf(greatestDecrease) + 2;
-console.log (monthNumberDecrease);
+let monthNumberDecrease = valueDifferences.indexOf(greatestDecrease) + 1;
 
-console.log (finances[monthNumberDecrease][0]);
+console.log ("Greatest Decrease in Profits: " + finances[monthNumberDecrease][0] + " ($" + greatestDecrease + ")");
 
 
 
 
 
-
-
-
-const avgProfitLoss = totalProfitLoss / numberOfMonths;
-console.log (avgProfitLoss);
-
-
-const maxMonth = {
-  monthName: '',
-  profit: 0,
-};
-
-const minMonth = {
-  monthName: '',
-  profit: 0,
-};
-
-finances.forEach((month) => {
-  if (month[1] > maxMonth.profit) {
-    maxMonth.monthName = month[0];
-    maxMonth.profit = month[1];
-  }
-
-  if (month[1] < minMonth.profit) {
-    minMonth.monthName = month[0];
-    minMonth.profit = month[1];
-  }
-
-  return { maxMonth, minMonth };
-});
-
-console.log('Total sale of profit months: ', totalProfitLoss);
-console.log('Total average : ', avgProfitLoss);
-console.log('The month with max profit is : ', maxMonth);
-console.log('The month with min profit is : ', minMonth);
